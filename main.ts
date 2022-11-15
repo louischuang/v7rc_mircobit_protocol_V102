@@ -42,8 +42,20 @@ bluetooth.onUartDataReceived(serial.delimiters(Delimiters.Hash), function () {
             if (TankP1 < 1000) {
                 TankP1 = 1000
             }
-            servos.P0.setPulse(TankP0)
-            servos.P1.setPulse(TankP1)
+            if (TankP0 > 1500) {
+                DFRobotMaqueenPlus.mototRun(Motors.M1, Dir.CW, (TankP0 - 1500) / 2)
+            } else if (TankP0 < 1500) {
+                DFRobotMaqueenPlus.mototRun(Motors.M1, Dir.CCW, (1500 - TankP0) / 2)
+            } else {
+                DFRobotMaqueenPlus.mototStop(Motors.M1)
+            }
+            if (TankP1 > 1500) {
+                DFRobotMaqueenPlus.mototRun(Motors.M2, Dir.CCW, (TankP1 - 1500) / 2)
+            } else if (TankP1 < 1500) {
+                DFRobotMaqueenPlus.mototRun(Motors.M2, Dir.CW, (1500 - TankP1) / 2)
+            } else {
+                DFRobotMaqueenPlus.mototStop(Motors.M2)
+            }
             servos.P2.setPulse(P2Value)
             BLEString = ""
         } else if (BLEString.substr(0, 3) == "SS8") {
